@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    .main-container {
+        padding: 0 15px;
+    }
+
+    .form-container {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+        width: 500px;
+        margin: 10px auto;
+        padding: 10px;
+        text-align: center;
+        box-shadow: 0 0px 10px 0 #cecece;
+    }
+
+    .form {
+        padding: 20px 50px;
+    }
+
+    input[type=number] {
+        width: 30%;
+        padding: 6px 10px;
+        margin: 8px 0;
+        display: inline-block;
+        outline: none;
+        font-size: 16px;
+        border: 1px solid black;
+        box-sizing: border-box;
+    }
+
+    button {
+        background-color: #4CAF50;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        width: 100%;
+    }
+
+    button:hover {
+        opacity: 0.8;
+    }
+    #result{
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    li{
+        text-align: left;
+        padding: 5px;
+    }
+</style>
+
+<body>
+    <div class="form-container">
+        <label for="sum">Enter summ</label>  <input type="number" id="sum">
+        <label for="price">Enter price</label> <input type="number" name="" id="price"> 
+        <button onclick="calc()">Calculate</button>
+        <div id='result'></div>
+    </div>
+    <script>
+        var sum = document.getElementById('sum'),
+            price = document.getElementById('price');
+
+        function calc() {
+            var cent = 0,
+                five = 0,
+                ten = 0,
+                twentyFive = 0,
+                fifty = 0,
+                dollar = 0;
+
+            var sum2 = sum.value;
+            var price2 = price.value;
+
+            if (Number(sum2) < Number(price2)) {
+                alert('Сума не може бути меншою за ціну');
+            } else if(sum2.length<=0 && price2.length <= 0){
+                    alert('Не можуть бути порожніми')
+            }else{
+                sum2 = sum2 * 100;
+                price2 = price2 * 100;
+                sum2 = Math.round((sum2 - price2) * 100) / 100;
+                while (sum2 >= 100) {
+                    sum2 -= 100;
+                    dollar += 1;
+                }
+                while (sum2 >= 50) {
+                    sum2 -= 50;
+                    fifty += 1;
+                }
+                while (sum2 >= 25) {
+                    sum2 -= 25;
+                    twentyFive += 1;
+                }
+                while (sum2 >= 10) {
+                    sum2 -= 10;
+                    ten += 1;
+                }
+                while (sum2 >= 5) {
+                    sum2 -= 5;
+                    five += 1;
+                }
+                while (sum2 >= 1) {
+                    sum2 -= 1;
+                    cent += 1;
+                }
+                var result = {
+                    dollar: dollar,
+                    fifty: fifty,
+                    twentyFive: twentyFive,
+                    ten: ten,
+                    five: five,
+                    cent: cent
+                };
+                for (key in result) {
+                    var ul = document.createElement('ul'),
+                        li0 = document.createElement('li'),
+                        li1 = document.createElement('li'),
+                        li2 = document.createElement('li'),
+                        li3 = document.createElement('li'),
+                        li4 = document.createElement('li'),
+                        li5 = document.createElement('li');
+
+                    ul.appendChild(li0);
+                    ul.appendChild(li1);
+                    ul.appendChild(li2);
+                    ul.appendChild(li3);
+                    ul.appendChild(li4);
+                    ul.appendChild(li5);
+
+                    li0.innerHTML = 'Dollar: ' + result.dollar;
+                    li1.innerHTML = 'Fifty cent: ' + result.fifty;
+                    li2.innerHTML = 'Twenty five cent: ' + result.twentyFive;
+                    li3.innerHTML = 'Ten cent: ' + result.ten;
+                    li4.innerHTML = 'Five cent: ' + result.five;
+                    li5.innerHTML = 'Cent: ' + result.cent;
+                }
+                var output = document.getElementById('result'),
+                    h3 = document.createElement('h3');
+                h3.innerHTML = "Your rest : " + Math.round((sum.value - price.value) * 100) / 100 + '$';
+                output.appendChild(h3);
+                output.appendChild(ul);
+
+                console.log(result)
+            }
+        }
+    </script>
+</body>
+
+</html>
